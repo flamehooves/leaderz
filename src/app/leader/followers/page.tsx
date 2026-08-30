@@ -8,6 +8,7 @@ import { EmptyState } from '@/components/common/EmptyState'
 import { Skeleton } from '@/components/common/Skeleton'
 import { formatRelativeTime } from '@/lib/formatting'
 import { MOCK_TENANTS } from '@/data/mock/leaders'
+import Link from 'next/link'
 
 export default function FollowersPage() {
   const { activeTenantId } = useAppStore()
@@ -52,6 +53,9 @@ export default function FollowersPage() {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.04 }}
+                >
+                <Link
+                  href={`/leader/followers/${follower.id}`}
                   className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted transition-colors"
                 >
                   <Avatar src={follower.avatarUrl} name={follower.name} size="md" />
@@ -67,6 +71,7 @@ export default function FollowersPage() {
                       <p className="text-[10px] text-muted-foreground">{formatRelativeTime(rel.lastActiveAt)}</p>
                     )}
                   </div>
+                </Link>
                 </motion.div>
               )
             })}
