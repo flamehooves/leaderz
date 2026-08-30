@@ -1,14 +1,16 @@
 'use client'
+import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import {
   ArrowLeft, MapPin, Briefcase, GraduationCap, CalendarBlank,
-  Lightning, UserPlus, ChatCircle, Star, Clock
+  UserPlus, ChatCircle, Star
 } from '@phosphor-icons/react'
 import { useAppStore } from '@/stores/appStore'
 import { useFollower } from '@/queries'
 import { Avatar } from '@/components/common/Avatar'
 import { Skeleton } from '@/components/common/Skeleton'
+import { CommunicationComposer } from '@/components/contacts/CommunicationComposer'
 import { formatRelativeTime, formatDate } from '@/lib/formatting'
 
 export default function FollowerDetailPage() {
@@ -17,6 +19,7 @@ export default function FollowerDetailPage() {
   const { activeTenantId } = useAppStore()
   const followerId = params.id as string
   const { data: follower, isLoading } = useFollower(followerId)
+  const [composerOpen, setComposerOpen] = useState(false)
 
   if (isLoading) {
     return (
@@ -89,7 +92,10 @@ export default function FollowerDetailPage() {
             <UserPlus size={16} weight="bold" />
             Add as Contact
           </button>
-          <button className="flex items-center justify-center gap-2 py-3 rounded-2xl bg-muted text-foreground text-sm font-semibold hover:bg-muted/80 transition-colors">
+          <button
+            onClick={() => setComposerOpen(true)}
+            className="flex items-center justify-center gap-2 py-3 rounded-2xl bg-muted text-foreground text-sm font-semibold hover:bg-muted/80 transition-colors"
+          >
             <ChatCircle size={16} />
             Message
           </button>
@@ -172,6 +178,13 @@ export default function FollowerDetailPage() {
           </div>
         </motion.div>
       </div>
+
+      <CommunicationComposer
+        open={composerOpen}
+        onClose={() => setComposerOpen(false)}
+        recipientName={follower.name}
+        context="custom"
+      />
     </div>
   )
 }

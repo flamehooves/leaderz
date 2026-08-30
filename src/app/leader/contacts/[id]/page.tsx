@@ -9,6 +9,7 @@ import { Avatar } from '@/components/common/Avatar'
 import { PrivacyBadge } from '@/components/common/PrivacyBadge'
 import { Skeleton } from '@/components/common/Skeleton'
 import { LogInteractionSheet } from '@/components/contacts/LogInteractionSheet'
+import { CommunicationComposer } from '@/components/contacts/CommunicationComposer'
 import { CONTACT_CATEGORY_LABELS } from '@/types/contact'
 import { formatDate, formatRelativeTime } from '@/lib/formatting'
 import { cn } from '@/lib/utils'
@@ -22,6 +23,8 @@ export default function ContactDetailPage() {
   const { data: contact, isLoading } = useContact(activeTenantId, contactId, userRole)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [sheetType, setSheetType] = useState<ContactInteraction['type']>('note')
+  const [composerOpen, setComposerOpen] = useState(false)
+  const [composerContext, setComposerContext] = useState<'birthday' | 'followup' | 'thankyou' | 'custom'>('custom')
 
   function openLog(type: ContactInteraction['type']) {
     setSheetType(type)
@@ -123,14 +126,14 @@ export default function ContactDetailPage() {
         {/* Quick actions */}
         <div className="grid grid-cols-4 gap-2">
           {[
-            { icon: Phone, label: 'Call', color: 'text-emerald-600', type: 'call' as const },
-            { icon: PaperPlaneTilt, label: 'Message', color: 'text-blue-600', type: 'message' as const },
-            { icon: Note, label: 'Note', color: 'text-amber-600', type: 'note' as const },
-            { icon: Lightning, label: 'Follow up', color: 'text-orange-600', type: 'meeting' as const },
-          ].map(({ icon: Icon, label, color, type }) => (
+            { icon: Phone, label: 'Call', color: 'text-emerald-600', type: 'call' as const, composer: false },
+            { icon: PaperPlaneTilt, label: 'Message', color: 'text-blue-600', type: 'message' as const, composer: true },
+            { icon: Note, label: 'Note', color: 'text-amber-600', type: 'note' as const, composer: false },
+            { icon: Lightning, label: 'Follow up', color: 'text-orange-600', type: 'meeting' as const, composer: false },
+          ].map(({ icon: Icon, label, color, type, composer }) => (
             <button
               key={label}
-              onClick={() => openLog(type)}
+              onClick={() => composer ? (setComposerContext('custom'), setComposerOpen(true)) : openLog(type)}
               className="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-muted hover:bg-muted/80 transition-colors"
               aria-label={label}
             >
@@ -244,6 +247,12 @@ export default function ContactDetailPage() {
         onClose={() => setSheetOpen(false)}
         contactName={contact.name}
         defaultType={sheetType}
+      />
+      <CommunicationComposer
+        open={composerOpen}
+        onClose={() => setComposerOpen(false)}
+        recipientName={contact.name}
+        context={composerContext}
       />
     </div>
   )
