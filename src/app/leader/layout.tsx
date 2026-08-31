@@ -6,8 +6,8 @@ export default function LeaderLayout({ children }: { children: React.ReactNode }
   return (
     <div className="min-h-screen bg-background">
       <DesktopSidebar />
-      <main className="md:ml-64">
-        <div className="has-bottom-nav md:pb-0">
+      <main className="md:ml-56">
+        <div className="has-bottom-nav md:pb-0 max-w-[620px]">
           {children}
         </div>
       </main>
