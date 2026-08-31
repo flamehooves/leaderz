@@ -7,7 +7,7 @@ export default function LeaderLayout({ children }: { children: React.ReactNode }
     <div className="min-h-screen bg-background">
       <DesktopSidebar />
       <main className="md:ml-56">
-        <div className="has-bottom-nav md:pb-0 max-w-[620px]">
+        <div className="has-bottom-nav md:pb-0 max-w-[700px] mx-auto">
           {children}
         </div>
       </main>
