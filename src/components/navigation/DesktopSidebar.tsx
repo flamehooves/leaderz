@@ -12,9 +12,8 @@ import { useLeader } from '@/queries'
 import { Avatar } from '@/components/common/Avatar'
 import { useUIStore } from '@/stores/uiStore'
 
-const NAV_ITEMS: { href: string; icon: React.ElementType; label: string; badge?: boolean }[] = [
+const NAV_ITEMS: { href: string; icon: React.ElementType; label: string }[] = [
   { href: '/leader/home', icon: House, label: 'Home' },
-  { href: '/leader/notifications', icon: Bell, label: 'Notifications', badge: true },
   { href: '/leader/followers', icon: Users, label: 'Followers' },
   { href: '/leader/contacts', icon: AddressBook, label: 'Contacts' },
   { href: '/leader/reels', icon: FilmStrip, label: 'Reels' },
@@ -30,7 +29,7 @@ export function DesktopSidebar() {
   const { activeTenantId } = useAppStore()
   const { data: notifications } = useNotifications(activeTenantId)
   const { data: leader } = useLeader(activeTenantId)
-  const { setPostComposerOpen } = useUIStore()
+  const { setPostComposerOpen, setNotificationsPanelOpen } = useUIStore()
   const unread = notifications?.filter(n => !n.read).length ?? 0
 
   return (
@@ -40,9 +39,25 @@ export function DesktopSidebar() {
         <span className="text-xl font-black tracking-tight text-foreground">LeaderZ</span>
       </div>
 
+      {/* Notifications bell — collapsible drawer trigger */}
+      <button
+        onClick={() => setNotificationsPanelOpen(true)}
+        className="flex items-center gap-3 px-3 py-2.5 rounded-full text-[15px] font-normal text-foreground/70 hover:bg-foreground/5 hover:text-foreground transition-colors w-full"
+      >
+        <span className="relative">
+          <Bell size={22} weight="regular" />
+          {unread > 0 && (
+            <span className="absolute -top-1 -right-1 bg-foreground text-background text-[9px] font-bold rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-0.5">
+              {unread > 9 ? '9+' : unread}
+            </span>
+          )}
+        </span>
+        <span>Notifications</span>
+      </button>
+
       {/* Nav items */}
       <nav className="flex-1 space-y-0.5" aria-label="Main navigation">
-        {NAV_ITEMS.map(({ href, icon: Icon, label, badge }) => {
+        {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
           const isActive = pathname.startsWith(href)
           return (
             <Link
@@ -57,11 +72,6 @@ export function DesktopSidebar() {
             >
               <Icon size={22} weight={isActive ? 'fill' : 'regular'} />
               <span>{label}</span>
-              {badge && unread > 0 && (
-                <span className="ml-auto bg-foreground text-background text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
-                  {unread > 9 ? '9+' : unread}
-                </span>
-              )}
             </Link>
           )
         })}
