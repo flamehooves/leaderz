@@ -147,7 +147,7 @@ body {
   100% { transform: translateY(0)    scale(1);    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.10)); }
 }
 .attention-card:hover .attention-icon {
-  animation: float-icon 1.4s ease-in-out infinite;
+  animation: float-icon 0.5s ease-out 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

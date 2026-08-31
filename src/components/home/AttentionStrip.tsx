@@ -46,7 +46,7 @@ export function AttentionStrip() {
         Needs attention
       </h2>
       {/* pt-3 gives headroom so the floating icon isn't clipped */}
-      <div className="flex gap-3 overflow-x-auto pb-2 pt-3 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
+      <div className="flex gap-3 overflow-x-auto pb-4 pt-3 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
         {cards.map((card, i) => (
           <motion.div
             key={card.id}
