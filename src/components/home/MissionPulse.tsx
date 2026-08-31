@@ -47,8 +47,7 @@ export function MissionPulse() {
             {mission.topics.slice(0, 4).map(topic => (
               <span
                 key={topic.id}
-                className="shrink-0 text-xs px-2.5 py-0.5 rounded-full font-medium text-white"
-                style={{ backgroundColor: topic.color ?? '#1a6b3c' }}
+                className="shrink-0 text-xs px-2.5 py-0.5 rounded-full font-medium bg-muted text-foreground/70"
               >
                 {topic.name}
               </span>

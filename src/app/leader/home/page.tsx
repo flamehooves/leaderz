@@ -1,9 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
-import { Bell, MagnifyingGlass, Plus, Sun } from '@phosphor-icons/react'
+import { Bell, MagnifyingGlass } from '@phosphor-icons/react'
 import { useAppStore } from '@/stores/appStore'
-import { useUIStore } from '@/stores/uiStore'
-import { useLeader } from '@/queries'
 import { usePosts } from '@/queries'
 import { useAISuggestions } from '@/queries'
 import { useOpportunities, useProjects } from '@/queries'
@@ -13,56 +11,30 @@ import { PostCard } from '@/components/content/PostCard'
 import { AISuggestionCard } from '@/components/ai/AISuggestionCard'
 import { OpportunityCard } from '@/components/opportunities/OpportunityCard'
 import { CardSkeleton } from '@/components/common/Skeleton'
-import { MOCK_TENANTS } from '@/data/mock/leaders'
 import Link from 'next/link'
-
-function getGreeting() {
-  const hour = 12
-  if (hour < 12) return 'Good morning'
-  if (hour < 17) return 'Good afternoon'
-  return 'Good evening'
-}
 
 export default function HomePage() {
   const { activeTenantId } = useAppStore()
-  const { setPostComposerOpen } = useUIStore()
-  const { data: leader, isLoading: leaderLoading } = useLeader(activeTenantId)
   const { data: posts, isLoading: postsLoading } = usePosts(activeTenantId)
   const { data: suggestions } = useAISuggestions(activeTenantId)
   const { data: opportunities } = useOpportunities(activeTenantId)
   const { data: projects } = useProjects(activeTenantId)
 
-  const activeTenant = MOCK_TENANTS.find(t => t.id === activeTenantId)
-
   return (
-    <div className="max-w-2xl mx-auto">
+    <div>
       {/* Header */}
       <header className="sticky top-0 z-20 bg-background/95 backdrop-blur-xl border-b">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <Sun size={16} className="text-amber-500 shrink-0" weight="fill" />
-              <p className="text-xs text-muted-foreground">{getGreeting()}</p>
-            </div>
-            <h1 className="text-lg font-bold text-foreground leading-tight truncate">
-              {leader?.name?.split(' ')[0] ?? activeTenant?.leaderName?.split(' ')[0] ?? ''}
-            </h1>
+        <div className="flex items-center justify-between px-4 py-3">
+          <h1 className="text-xl font-bold">Home</h1>
+          <div className="flex items-center gap-0.5">
+            <Link href="/leader/contacts" className="p-2 rounded-full hover:bg-muted transition-colors" aria-label="Search">
+              <MagnifyingGlass size={20} />
+            </Link>
+            <Link href="/leader/notifications" className="relative p-2 rounded-full hover:bg-muted transition-colors" aria-label="Notifications">
+              <Bell size={20} />
+              <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-foreground rounded-full" />
+            </Link>
           </div>
-          <Link href="/leader/contacts" className="p-2 rounded-xl hover:bg-muted transition-colors" aria-label="Search">
-            <MagnifyingGlass size={20} />
-          </Link>
-          <Link href="/leader/notifications" className="relative p-2 rounded-xl hover:bg-muted transition-colors" aria-label="Notifications">
-            <Bell size={20} />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full" />
-          </Link>
-          <button
-            onClick={() => setPostComposerOpen(true)}
-            className="flex items-center gap-1.5 bg-primary text-primary-foreground px-3 py-1.5 rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors"
-            aria-label="Create post"
-          >
-            <Plus size={16} weight="bold" />
-            <span className="hidden sm:inline">Post</span>
-          </button>
         </div>
       </header>
 

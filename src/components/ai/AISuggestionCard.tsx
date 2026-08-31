@@ -11,8 +11,8 @@ interface Props {
 }
 
 const priorityColors = {
-  high: 'border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800',
-  medium: 'border-blue-200 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-800',
+  high: 'border-border bg-muted/40',
+  medium: 'border-border bg-muted/40',
   low: 'border-border bg-card',
 }
 
@@ -35,8 +35,8 @@ export function AISuggestionCard({ suggestion, onDismiss }: Props) {
           className={cn('rounded-2xl border p-4', priorityColors[suggestion.priority])}
         >
           <div className="flex items-start gap-3">
-            <div className="p-1.5 rounded-lg bg-primary/10 shrink-0 mt-0.5">
-              <Sparkle size={14} className="text-primary" weight="fill" />
+            <div className="p-1.5 rounded-lg bg-muted shrink-0 mt-0.5">
+              <Sparkle size={14} className="text-foreground/60" weight="fill" />
             </div>
 
             <div className="flex-1 min-w-0">
@@ -48,7 +48,7 @@ export function AISuggestionCard({ suggestion, onDismiss }: Props) {
                     className="p-1 rounded-lg hover:bg-black/10 transition-colors"
                     aria-label={saved ? 'Unsave' : 'Save'}
                   >
-                    <BookmarkSimple size={14} weight={saved ? 'fill' : 'regular'} className={saved ? 'text-primary' : 'text-muted-foreground'} />
+                    <BookmarkSimple size={14} weight={saved ? 'fill' : 'regular'} className="text-foreground/50" />
                   </button>
                   <button
                     onClick={handleDismiss}

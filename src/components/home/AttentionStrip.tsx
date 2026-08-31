@@ -22,7 +22,7 @@ export function AttentionStrip() {
       title: c.name,
       subtitle: `Birthday ${formatShortDate(c.importantDates[0]?.date ?? '')}`,
       href: `/leader/contacts/${c.id}`,
-      bg: 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800',
+      bg: 'bg-gradient-to-br from-pink-50 to-rose-100 border-rose-200/80',
     })) ?? []),
     ...(followUps?.slice(0, 2).map(c => ({
       id: `fu-${c.id}`,
@@ -30,15 +30,15 @@ export function AttentionStrip() {
       title: c.name,
       subtitle: c.nextFollowUpNote ?? 'Follow up needed',
       href: `/leader/contacts/${c.id}`,
-      bg: 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800',
+      bg: 'bg-gradient-to-br from-amber-50 to-orange-100 border-amber-200/80',
     })) ?? []),
     ...(highPriority.slice(0, 2).map(s => ({
       id: s.id,
-      icon: <Bell size={16} className="text-primary" />,
+      icon: <Bell size={16} className="text-violet-500" />,
       title: s.title,
       subtitle: s.body.slice(0, 60) + '…',
       href: s.targetType === 'contact' ? `/leader/contacts/${s.targetId}` : '/leader/home',
-      bg: 'bg-primary/5 border-primary/20',
+      bg: 'bg-gradient-to-br from-violet-50 to-indigo-100 border-violet-200/80',
     }))),
   ]
 
@@ -60,14 +60,14 @@ export function AttentionStrip() {
           >
             <Link
               href={card.href}
-              className={`flex items-start gap-3 p-3 rounded-2xl border min-w-[220px] max-w-[260px] hover:shadow-md transition-all card-hover ${card.bg}`}
+              className={`flex items-center gap-2.5 px-3 rounded-2xl border w-[220px] h-[68px] hover:shadow-sm transition-all card-hover ${card.bg}`}
             >
-              <span className="mt-0.5">{card.icon}</span>
-              <div className="min-w-0">
+              <span className="shrink-0">{card.icon}</span>
+              <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-foreground truncate">{card.title}</p>
-                <p className="text-xs text-muted-foreground line-clamp-2 leading-tight mt-0.5">{card.subtitle}</p>
+                <p className="text-xs text-muted-foreground truncate leading-tight mt-0.5">{card.subtitle}</p>
               </div>
-              <ArrowRight size={14} className="text-muted-foreground shrink-0 mt-0.5" />
+              <ArrowRight size={13} className="text-muted-foreground shrink-0" />
             </Link>
           </motion.div>
         ))}
