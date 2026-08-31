@@ -43,7 +43,7 @@ export function MissionPulse() {
         </div>
 
         <div className="p-3">
-          <div className="flex gap-1 mb-3 overflow-x-auto">
+          <div className="flex flex-wrap gap-1 mb-3">
             {mission.topics.slice(0, 4).map(topic => (
               <span
                 key={topic.id}

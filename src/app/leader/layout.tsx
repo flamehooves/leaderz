@@ -5,12 +5,15 @@ import { PostComposer } from '@/components/content/PostComposer'
 export default function LeaderLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
-      <DesktopSidebar />
-      <main className="md:ml-56">
-        <div className="has-bottom-nav md:pb-0 max-w-[700px]">
-          {children}
-        </div>
-      </main>
+      {/* Sidebar + content centered together as one unit, like X */}
+      <div className="flex max-w-[960px] mx-auto">
+        <DesktopSidebar />
+        <main className="flex-1 min-w-0">
+          <div className="has-bottom-nav md:pb-0">
+            {children}
+          </div>
+        </main>
+      </div>
       <div className="md:hidden">
         <LeaderBottomNav />
       </div>

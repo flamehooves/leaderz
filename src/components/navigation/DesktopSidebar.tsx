@@ -34,7 +34,7 @@ export function DesktopSidebar() {
   const unread = notifications?.filter(n => !n.read).length ?? 0
 
   return (
-    <aside className="hidden md:flex flex-col w-56 h-screen fixed left-0 top-0 z-30 py-3 pr-3">
+    <aside className="hidden md:flex flex-col w-56 h-screen sticky top-0 shrink-0 py-3 pr-3 z-30">
       {/* Logo */}
       <div className="px-3 py-2 mb-1">
         <span className="text-xl font-black tracking-tight text-foreground">LeaderZ</span>
